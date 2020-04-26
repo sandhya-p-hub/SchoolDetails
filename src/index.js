@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './sass/index.scss'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
+import ForgotPassword from './pages/ForgotPswd'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+   <ForgotPassword />
   </React.StrictMode>,
   document.getElementById('root')
 );
