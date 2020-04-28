@@ -1,59 +1,52 @@
 import React from "react";
-const formStyle = {
-  background: "#fff",
-  margin: "0 450px",
-  height: "269px",
-  padding: "17px 75px",
-  align:"center",
-  display: "inline-block",
-  marginTop:"206px"
+import FormContainer from "../../components/hoc/FormContainer";
+import TextInput from "../../components/TextInput";
 
-};
-const inputStyle = {
-  padding: "0 50px",
-};
-const style = {
-marginTop: "27px"
-}
-const styleForBody={
-align:"center",
-background: "#0cf",
-paddingBottom: "300px"
-}
-const btn={
-  align:"center",
-  background: "#0cf",
-  border: "#0cf"
-}
-export default class SignUp extends React.PureComponent {
-  render() {
-    return (
-    
-      <div style={styleForBody}>
-      <form style={formStyle} onSubmit={this.handlePassword}>
-        <div style={style} className="form-group">
-          <h1>Forgot Password?</h1>
-          <br></br>
-          <h5>Please enter your email id to reset the password</h5>
-          <br></br>        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            className="input-box"
-            style={inputStyle}
-            placeholder="Email"
-          />
-        </div>
-        <br></br>
-     
-        <div className="form-group">
-          <button style={btn} >Ok</button>
-        </div>
-      </form>
-      </div>
-    );
+export default class ForgotPswd extends React.PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      userName: "",
+      error: {}
+    };
   }
-  handlePassword() {
-alert("Please check you mail to reset the password")
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { error,userName } = this.state;
+    let errors={};
+    if(userName === "") {
+      errors.userName = "Please enter your email id to proceed"
+    }
+    this.setState({error:errors})
+    if(!errors)
+    alert("Please check your mail to reset the password")
+  };
+  
+  render() {
+    const {
+      error,
+      userName
+        } = this.state;
+    return (
+      <FormContainer>
+        <h1>Forgot Password?</h1>
+        <h5>Please enter your email id to reset password</h5>
+        <form>
+              <TextInput
+                type="email"
+                placeholder="email id"
+                name="userName"
+                handleChange={this.handleChange}
+                error={error.userName}
+                value={userName}
+              />
+          <button onClick={this.handleSubmit}>OK</button>
+        </form>
+      </FormContainer>
+    );
   }
 }

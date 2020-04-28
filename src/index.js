@@ -5,10 +5,11 @@ import './sass/index.scss'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPswd'
+import App from './pages/app'
 
 ReactDOM.render(
   <React.StrictMode>
-   <ForgotPassword />
+   <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

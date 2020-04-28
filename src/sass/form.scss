@@ -1,3 +1,33 @@
-form {
-    background-color: blue;
+
+.form-Container {
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  &__box{
+    width:400px;
+    background-color:white;
+    padding:30px;
   }
+  h1,h3{
+    padding-bottom:10px
+  }
+}
+
+.form-input{
+margin-bottom:10px;
+&__box{
+  padding:5px;
+  width:100%;
+}
+&__error{
+color:white;
+padding:5px;
+background-color: red;
+}
+}
+
+.btn_forgotPswd{
+  margin-left: 28px;
+}

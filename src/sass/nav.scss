@@ -1,0 +1,33 @@
+.navbar {
+    background-color: var(--nav-bar-color);
+    padding: 10px ;
+    .btn{
+      margin-left:10px;
+    }
+  }
+  
+  #login{
+    margin-left: -46px;
+    color: white;
+    background-color: blue;
+    border: blue;
+    padding: 9px;
+  }
+  #register{
+    margin-left: -112px;
+    color: white;
+    // background-color: green;
+    // border: green;
+    padding: 9px;
+  }
+  #username{
+    color: black;
+    padding: 9px;
+  }
+  #logout{
+    margin-left: -46px;
+    color: white;
+    background-color: blue;
+    border: blue;
+    padding: 9px;
+  }
