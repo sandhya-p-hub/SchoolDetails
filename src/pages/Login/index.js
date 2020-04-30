@@ -5,14 +5,18 @@ import joi from "joi-browser";
 import ForgotPassword from "./../ForgotPswd"
 import { Redirect ,Link} from 'react-router-dom';
 import ForgotPswd from './../ForgotPswd/index';
+import { saveUser, fetchUser } from '../../action';
+import SignUp from './../SignUp';
+import { connect } from 'react-redux';
 
-export default class Login extends React.PureComponent {
+class Login extends React.PureComponent {
+  
   constructor() {
     super();
     this.state = {
       userName: "",
       password: "",
-      error: {}
+      error: {}, redirect: false
     };
     this.schema = {
       userName: joi
@@ -25,7 +29,20 @@ export default class Login extends React.PureComponent {
         .min(8)
     };
   }
-
+  
+  componentDidMount = () => {
+    const { match } = this.props;
+    if (match.params.emailId) {
+      this.props.fetchUser(match.params.emailId);
+    }
+  }
+  saveUser = ({firstName, lastName, emailId,password,confirmPassword }) => {
+    if (emailId) {
+      return this.props.saveUser({ firstName, lastName,emailId,password,confirmPassword }).then(
+        () => { this.setState({ redirect: true })},
+      );
+    }
+  }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -35,6 +52,7 @@ export default class Login extends React.PureComponent {
     const errors = this.validate();
     this.setState({ error: errors || {} });
     if (errors) return;
+    this.saveUser();
   };
 
   validate = () => {
@@ -62,6 +80,9 @@ export default class Login extends React.PureComponent {
       password,
     } = this.state;
     return (
+      <div>  {
+        this.state.redirect ?
+        <Redirect to="/login" /> :
       <FormContainer>
         <h1>Login</h1>
         <form>
@@ -93,6 +114,21 @@ export default class Login extends React.PureComponent {
           </div>
         </form>
       </FormContainer>
+      }</div>
     );
   }
 }
+
+
+function mapStateToProps(state, props) {
+  const { match } = props;
+  if (match.params.emailId) {
+    return {
+      user: state.user.find(item => item.emailId === match.params.emailId)
+    }
+  }
+
+  return { user: null };
+}
+
+export default connect(mapStateToProps, { saveUser, fetchUser })(Login);

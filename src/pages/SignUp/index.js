@@ -2,8 +2,10 @@ import React from "react";
 import FormContainer from "../../components/hoc/FormContainer";
 import TextInput from "../../components/TextInput";
 import joi from "joi-browser";
+import { saveUser } from "../../action";
+import { connect } from "react-redux";
 
-export default class SignUp extends React.PureComponent {
+class SignUp extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -46,23 +48,24 @@ export default class SignUp extends React.PureComponent {
     const { error } = this.state;
     const errors = this.validate();
     this.setState({ error: errors || {} });
-    if (errors) return;
-   // this.doSubmit();
-  };
-  // doSubmit = async () => {
-  //   try {
-  //     const response = await userService.register(this.state);
-  //     auth.loginWithJwt(response.headers["x-auth-token"]);
-  //     window.location = "/";
-  //   } catch (ex) {
-  //     if (ex.response && ex.response.status === 400) {
-  //       const errors = { ...this.state.error };
-  //       errors.emailId = ex.response.data;
-  //       this.setState({ errors });
-  //     }
-  //   }
-  // };
 
+    const isValid = Object.keys(error).length === 0;
+    console.log("isvalid", isValid);
+    if (isValid) {
+      const {
+        firstName,
+        lastName,
+        emailId,
+        password,
+        confirmPassword
+      } = this.state;
+      this.props
+        .saveUser({ firstName, lastName, emailId, password, confirmPassword })
+        .catch(err =>
+          err.response.json().then(({ error }) => this.setState({ error }))
+        );
+    }
+  };
 
   validate = () => {
     const result = joi.validate(this.state, this.schema, {
@@ -148,3 +151,4 @@ export default class SignUp extends React.PureComponent {
     );
   }
 }
+export default connect(null,{ saveUser })(SignUp);

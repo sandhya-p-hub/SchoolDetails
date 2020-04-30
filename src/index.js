@@ -6,11 +6,24 @@ import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPswd'
 import App from './pages/app'
+import rootReducer from './rootReducer';
+import thunk from "redux-thunk";
+import { createStore,applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import {Provider} from "react-redux"
 
+const store=createStore(
+  rootReducer,
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  )
+)
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
    <App />
-  </React.StrictMode>,
+   {/* </React.StrictMode> */}
+  </Provider>,
   document.getElementById('root')
 );
 
