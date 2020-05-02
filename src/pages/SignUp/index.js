@@ -20,11 +20,11 @@ class SignUp extends React.PureComponent {
       firstName: joi
         .string()
         .required()
-        .min(7),
+        .min(3),
       lastName: joi
         .string()
         .required()
-        .min(7),
+        .min(3),
       emailId: joi
         .string()
         .email()
@@ -32,26 +32,26 @@ class SignUp extends React.PureComponent {
       password: joi
         .string()
         .required()
-        .min(8),
+        .min(4),
       confirmPassword: joi
         .string()
         .required()
-        .min(8)
+        .min(4)
     };
   }
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+    const errors = this.validate();
+    this.setState({ error: errors || {} });
+
   };
   handleSubmit = e => {
     e.preventDefault();
     const { error } = this.state;
     const errors = this.validate();
     this.setState({ error: errors || {} });
-
-    const isValid = Object.keys(error).length === 0;
-    console.log("isvalid", isValid);
-    if (isValid) {
+    if(!(errors.confirmPassword||errors.firstName||errors.lastName||errors.password||errors.emailId)){
       const {
         firstName,
         lastName,
@@ -61,10 +61,16 @@ class SignUp extends React.PureComponent {
       } = this.state;
       this.props
         .saveUser({ firstName, lastName, emailId, password, confirmPassword })
-        .catch(err =>
-          err.response.json().then(({ error }) => this.setState({ error }))
+        .then(res => {
+          console.log("res", res);
+          this.props.history.push(`Home/${res.user._id}`);
+        })
+        .catch(err =>{
+         return err;
+        }
         );
-    }
+    
+  }
   };
 
   validate = () => {
@@ -80,9 +86,19 @@ class SignUp extends React.PureComponent {
       if (!isNaN(parseInt(result.value.lastName))) {
         errors.lastName = "Please enter a valid name";
       }
-      errors[item.path[0]] = item.message;
+     
+      if ((result.value.password.toString()!=="") && (result.value.confirmPassword.toString()!=="") && (result.value.password.toString() !== result.value.confirmPassword.toString())) {
+        errors.password = "The passwords does not match";
+        errors.confirmPassword = "The passwords does not match";
+      }
+      else if(result.value.password.toString() === result.value.confirmPassword.toString()){
+      errors.password = "";
+      errors.confirmPassword = "";
     }
+    errors[item.path[0]] = item.message;
+
     return errors;
+  }
   };
 
   render() {
@@ -151,4 +167,4 @@ class SignUp extends React.PureComponent {
     );
   }
 }
-export default connect(null,{ saveUser })(SignUp);
+export default connect(null, { saveUser })(SignUp);

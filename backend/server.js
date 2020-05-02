@@ -38,6 +38,12 @@ mongodb.MongoClient.connect(dbUrl, function(err, db) {
       res.status(400).json({ errors });
     }
   });
+  app.post('/api/auth', (req, res) => {
+    console.log(req.body.emailId.emailId)
+    db.collection('user').findOne({ emailId: req.body.emailId.emailId }, (err, user) => {
+      res.json({ user });
+    })
+  });
 
   app.listen(8080, () => console.log('Server is running on localhost:8080'));
 

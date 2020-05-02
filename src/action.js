@@ -49,3 +49,16 @@ export function fetchUser(emailId) {
       .then(data => dispatch(userFetched(data.user)));
   }
 }
+
+export function loginUser(emailId){
+return dispatch=>{
+  return fetch('/api/auth', {
+    method: 'post',
+    body: JSON.stringify({emailId}),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(handleResponse)
+  .then(data => dispatch({type:"", data:data}));
+}
+}
