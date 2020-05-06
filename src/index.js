@@ -2,15 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import './sass/index.scss'
-import SignUp from './pages/SignUp'
-import Login from './pages/Login'
-import ForgotPassword from './pages/ForgotPswd'
 import App from './pages/app'
 import rootReducer from './rootReducer';
 import thunk from "redux-thunk";
 import { createStore,applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import {Provider} from "react-redux"
+import {Provider} from "react-redux";
+import "bootstrap/dist/css/bootstrap.css";
+import "font-awesome/css/font-awesome.css";
 
 const store=createStore(
   rootReducer,
@@ -19,10 +18,8 @@ const store=createStore(
   )
 )
 ReactDOM.render(
-  // <React.StrictMode>
   <Provider store={store}>
    <App />
-   {/* </React.StrictMode> */}
   </Provider>,
   document.getElementById('root')
 );

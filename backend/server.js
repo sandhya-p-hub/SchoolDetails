@@ -21,13 +21,22 @@ mongodb.MongoClient.connect(dbUrl, function(err, db) {
       res.json({ user });
     });
   });
-
+  app.get('/api/school', (req, res) => {
+    db.collection('schoolDetails').find({}).toArray((err, schools) => {
+      res.json({ schools });
+    });
+  });
+  app.get('/api/schoolArea', (req, res) => {
+    db.collection('schoolAreas').find({}).toArray((err, schools) => {
+      res.json({ schools });
+    });
+  });
   app.post('/api/user', (req, res) => {
     const { errors, isValid } = validate(req.body);
     if (isValid) {
       console.log(req.body);
-      const {firstName, lastName, emailId, password, confirmPassword  } = req.body;
-      db.collection('user').insert({ firstName, lastName, emailId, password, confirmPassword  }, (err, result) => {
+      const {firstName, lastName,admin, emailId, password, confirmPassword  } = req.body;
+      db.collection('user').insert({ firstName, lastName, admin,emailId, password, confirmPassword  }, (err, result) => {
         if (err) {
           res.status(500).json({ errors: { global: "Something went wrong" }});
         } else {
@@ -39,7 +48,7 @@ mongodb.MongoClient.connect(dbUrl, function(err, db) {
     }
   });
   app.post('/api/auth', (req, res) => {
-    console.log(req.body.emailId.emailId)
+    console.log("eaildId",req.body.emailId.emailId)
     db.collection('user').findOne({ emailId: req.body.emailId.emailId }, (err, user) => {
       res.json({ user });
     })

@@ -30,6 +30,21 @@ border-color: #f5c6cb;
 }
 }
 
+.dropDown{
+  margin-bottom:10px;
+  &__box{
+    padding:5px;
+    width:100%;margin-bottom:9px;
+  }
+  &__error{
+  color:rgb(66, 5, 5);
+  padding:5px;
+  background-color:  #d68188;
+  border-color: #f5c6cb;
+  
+  }
+  }
+
 .btn_forgotPswd{
   margin-left: 28px;
 }

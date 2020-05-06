@@ -1,9 +1,11 @@
 export const ADD_USER = 'ADD_USER';
 export const USER_FETCHED='USER_FETCHED';
+export const SET_SCHOOLS='SET_SCHOOLS';
 
 function handleResponse(response) {
   if (response.ok) {
     return response.json();
+
   } else {
     let error = new Error(response.statusText);
     error.response = response;
@@ -18,6 +20,14 @@ export function addUser(user) {
     user
   }
 }
+
+export function setSchool(schools) {
+  console.log("dasda",schools)
+  return {
+    type: SET_SCHOOLS,
+    schools,
+  }
+ }
 
 export function userFetched(user) {
   return {
@@ -49,6 +59,23 @@ export function fetchUser(emailId) {
       .then(data => dispatch(userFetched(data.user)));
   }
 }
+
+// export function getSchoolDetails() {
+//   return dispatch => {
+//     fetch(`/api/school/`)
+//       .then(res => res.json())
+//       .then(data => dispatch(setSchool(data.user)));
+//   }
+// }
+export function fetchSchool() {
+  return dispatch => {
+    fetch('/api/school')
+      .then(res => res.json())
+      .then(data => dispatch(setSchool(data.schools)));
+  }
+  
+ }
+
 
 export function loginUser(emailId){
 return dispatch=>{

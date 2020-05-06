@@ -1,9 +1,10 @@
 import React from "react";
 import FormContainer from "../../components/hoc/FormContainer";
-import TextInput from "../../components/TextInput";
+import TextInput from "../../components/hoc/TextInput";
 import joi from "joi-browser";
 import { saveUser } from "../../action";
 import { connect } from "react-redux";
+import DropDown from "../../components/hoc/DropDown";
 
 class SignUp extends React.PureComponent {
   constructor() {
@@ -11,6 +12,7 @@ class SignUp extends React.PureComponent {
     this.state = {
       firstName: "",
       lastName: "",
+      admin:"",
       emailId: "",
       password: "",
       confirmPassword: "",
@@ -25,6 +27,9 @@ class SignUp extends React.PureComponent {
         .string()
         .required()
         .min(3),
+        admin: joi
+        .string()
+        .required(),
       emailId: joi
         .string()
         .email()
@@ -44,33 +49,40 @@ class SignUp extends React.PureComponent {
     this.setState({ [e.target.name]: e.target.value });
     const errors = this.validate();
     this.setState({ error: errors || {} });
-
   };
   handleSubmit = e => {
     e.preventDefault();
     const { error } = this.state;
     const errors = this.validate();
     this.setState({ error: errors || {} });
-    if(!(errors.confirmPassword||errors.firstName||errors.lastName||errors.password||errors.emailId)){
+    if (
+      !(
+        errors.confirmPassword ||
+        errors.firstName ||
+        errors.lastName ||
+        errors.password ||
+        errors.emailId  ||
+        errors.admin
+      )
+    ) {
       const {
         firstName,
         lastName,
+        admin,
         emailId,
         password,
         confirmPassword
       } = this.state;
       this.props
-        .saveUser({ firstName, lastName, emailId, password, confirmPassword })
+        .saveUser({ firstName, lastName, admin,emailId, password, confirmPassword })
         .then(res => {
           console.log("res", res);
-          this.props.history.push(`Home/${res.user._id}`);
+           this.props.history.push(`Home/${res.user._id}`);
         })
-        .catch(err =>{
-         return err;
-        }
-        );
-    
-  }
+        .catch(err => {
+          return err;
+        });
+    }
   };
 
   validate = () => {
@@ -86,19 +98,24 @@ class SignUp extends React.PureComponent {
       if (!isNaN(parseInt(result.value.lastName))) {
         errors.lastName = "Please enter a valid name";
       }
-     
-      if ((result.value.password.toString()!=="") && (result.value.confirmPassword.toString()!=="") && (result.value.password.toString() !== result.value.confirmPassword.toString())) {
+      if (
+        result.value.password.toString() !== "" &&
+        result.value.confirmPassword.toString() !== "" &&
+        result.value.password.toString() !==
+          result.value.confirmPassword.toString()
+      ) {
         errors.password = "The passwords does not match";
         errors.confirmPassword = "The passwords does not match";
+      } else if (
+        result.value.password.toString() ===
+        result.value.confirmPassword.toString()
+      ) {
+        errors.password = "";
+        errors.confirmPassword = "";
       }
-      else if(result.value.password.toString() === result.value.confirmPassword.toString()){
-      errors.password = "";
-      errors.confirmPassword = "";
+      errors[item.path[0]] = item.message;
+      return errors;
     }
-    errors[item.path[0]] = item.message;
-
-    return errors;
-  }
   };
 
   render() {
@@ -106,6 +123,7 @@ class SignUp extends React.PureComponent {
       error,
       firstName,
       lastName,
+      admin,
       emailId,
       password,
       confirmPassword
@@ -137,6 +155,12 @@ class SignUp extends React.PureComponent {
               />
             </div>
           </div>
+         <DropDown 
+         name="admin"
+         handleChange={this.handleChange}
+         error={error.admin}
+         value={admin}
+         />
           <TextInput
             type="email"
             placeholder="email"
