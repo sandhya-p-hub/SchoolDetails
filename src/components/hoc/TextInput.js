@@ -1,7 +1,6 @@
 import React from "react";
 
 const TextInput = ({ type, placeholder, name, handleChange, error, value }) => {
-  console.log("textinput ", error);
   return (
     <div className="form-input">
       <input

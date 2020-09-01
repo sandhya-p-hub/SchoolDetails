@@ -76,7 +76,6 @@ class SignUp extends React.PureComponent {
       this.props
         .saveUser({ firstName, lastName, admin,emailId, password, confirmPassword })
         .then(res => {
-          console.log("res", res);
            this.props.history.push(`Home/${res.user._id}`);
         })
         .catch(err => {

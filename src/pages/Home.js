@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "./NavBar";
 import SchoolTable from "./SchoolTable";
+import InstituteTable from "./InstituteTable";
 
 class Home extends Component {
   render() {
@@ -18,7 +19,9 @@ class Home extends Component {
         {!name && <NavBar />}
       </div>
       <div>
-      <SchoolTable />
+        {admin === "Institute" &&
+      <InstituteTable /> || <SchoolTable />
+        }
       </div>
       </React.Fragment> 
     );

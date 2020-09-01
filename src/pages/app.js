@@ -10,6 +10,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 import ForgotPswd from "./ForgotPswd";
 import Home from "./Home";
+
 class App extends React.Component {
   state = {};
   componentDidMount() {}
@@ -24,6 +25,7 @@ class App extends React.Component {
             <Route exact path="/Logout" component={Logout} />
             <Route exact path="/ForgotPswd" component={ForgotPswd} />
             <Route exact path="/SignUp" component={SignUp} />
+
             <Redirect exact from="/" exact to="/Home"></Redirect>
           </Switch>
         </div>

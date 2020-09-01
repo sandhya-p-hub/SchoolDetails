@@ -2,10 +2,9 @@ import React from "react";
 import LinkBtn from "./../components/Button/LinkBtn";
 import Logoimage from "../school.png";
 import Adminimage from "../admin.jpg";
-
+import Toggle from "./Toggle";
 
 const NavBar = ({ name,admin }) => {
-  console.log("userss", name,admin);
 
   return (
     <nav className="navbar">
@@ -33,6 +32,8 @@ const NavBar = ({ name,admin }) => {
                 </div>
                 <div className="row__col-1">
                 <LinkBtn label="Logout" to="/logout" />
+                </div>
+                <div className="row__col-1">
                 </div>
                 </div>
               </React.Fragment>
